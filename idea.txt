@@ -1,0 +1,3 @@
+the idea now is to build a reminder application that's running on the background of the users device. and it automatical switches to the new task when the allocated time has reach
+
+the application is to help users keep track and be on time always and prevent procastination
