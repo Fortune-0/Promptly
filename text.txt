@@ -8,3 +8,6 @@ stack
 
 ** update  to stack**
 1. sqlite3
+
+
+note: Run the promptly_db.py once
