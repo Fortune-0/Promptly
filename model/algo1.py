@@ -1,15 +1,13 @@
 import datetime
-import mysql.connector
-import uuid
+import sqlite3
+
+def db_connection():
+    db_connection.connection = sqlite3.connect('prompt_db')
+    return db_connection
 
 def create():
     # Connect to MySQL database
-    conn = mysql.connector.connect(
-        host='localhost',
-        user='your_username',
-        password='your_password',
-        database='reminders_db'
-    )
+    conn = db_connection()
     cursor = conn.cursor()
 
     task = input("Enter the task/event: ")
@@ -51,31 +49,34 @@ def create():
     # Insert reminder into the database
     cursor.execute("""
         INSERT INTO reminders (task, date, time)
-        VALUES (%s, %s, %s)
+        VALUES (?, ?, ?)
     """, (reminder['task'], reminder['date'], reminder['time']))
     
-    conn.commit()
+    db_connection.commit()
     cursor.close()
-    conn.close()
+    db_connection.close()
 
     print("Reminder Saved Successfully\n")
+# def update():
+    
+#     pass
 
-def get_reminder_by_id(reminder_id):
-    conn = mysql.connector.connect(
-        host='localhost',
-        user='your_username',
-        password='your_password',
-        database='reminders_db'
-    )
-    cursor = conn.cursor(dictionary=True)
+# def get_reminder_by_id(reminder_id):
+#     conn = mysql.connector.connect(
+#         host='localhost',
+#         user='your_username',
+#         password='your_password',
+#         database='reminders_db'
+#     )
+#     cursor = conn.cursor(dictionary=True)
     
-    cursor.execute("SELECT * FROM reminders WHERE id = %s", (reminder_id,))
-    reminder = cursor.fetchone()
+#     cursor.execute("SELECT * FROM reminders WHERE id = %s", (reminder_id,))
+#     reminder = cursor.fetchone()
     
-    cursor.close()
-    conn.close()
+#     cursor.close()
+#     conn.close()
     
-    return reminder
+#     return reminder
 
 create()
 # Example usage of get_reminder_by_id:
