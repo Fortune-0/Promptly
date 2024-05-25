@@ -1,0 +1,10 @@
+stack 
+1.  python
+2. json files
+3. plyer for notifications etc.
+
+**Update to stack**
+1. Mysql 
+
+** update  to stack**
+1. sqlite3
