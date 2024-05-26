@@ -6,13 +6,14 @@ def setup_db():
     cursor = conn.cursor()
     cursor.execute('''
                    CREATE TABLE IF NOT EXISTS reminders(
-                       id INTEGER PRIMARY AUTOINCREMENT,
+                       id INTEGER PRIMARY KEY AUTOINCREMENT,
                        task TEXT NOT NULL,
                        date DATE NOT NULL,
                        time TIME NOT NULL
                        )
                        ''')
     conn.commit()
-    conn.close
+    conn.close()
 
 setup_db()
+print("Database created successfully")
