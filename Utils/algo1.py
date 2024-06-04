@@ -64,22 +64,60 @@ def delete():
     
     try:
         
-        reminder_id = input("Enter the task id you want to delete")
+        reminder_id = input("Enter the task id you want to delete ")
         
-        if reminder_id.isdigit():
-            print("Invalid input! \n id is a number")
-        else:
+        if not reminder_id.isdigit():
+            print("Invalid input! \n id should be a number")
             return
-    
+
         reminder_id = int(reminder_id)
-        query = "DELETE FROM reminders WHERE id = {}".format(reminder_id)
-        cursor.execute(query)
-        conn.commit
+        query = "DELETE FROM reminders WHERE id = ?"
+        cursor.execute(query, (reminder_id,))
+        
+        print(f"Reminder with id {reminder_id} has been deleted")
+        conn.commit()
         
     except Exception as e:
         print(" An Error occured: ", e)
     finally:
         conn.close()
+        
+        
+def showAll():
+    """ Shows all the reminders stored in the database"""
+    conn = db_connection()
+    cursor = conn.cursor()
+    try:
+        query = "SELECT * FROM reminders"
+        cursor.execute(query)
+        reminders = cursor.fetchall()
+        if not reminders:
+            print("No reminders found.")
+            return
+        print("All reminders:")
+        for reminder in reminders:
+            print(reminder)
+    except Exception as e:
+        print(f"An error occoured: {e}")
+    finally:
+        conn.close()
+# def delete():
+#     conn = db_connection()
+#     cursor = conn.cursor()
+    
+    
+        
+#     reminder_id = int(input("Enter the task id you want to delete "))
+        
+        
+#     # reminder_id = int(reminder_id)
+#     query = "DELETE FROM reminders WHERE id = ?"
+#     cursor.execute(query, (reminder_id,))
+#     conn.commit()
+        
+    
+#     conn.close()
+
 # def update():
     
 #     pass
@@ -101,7 +139,9 @@ def delete():
     
 #     return reminder
 
-create()
+# create()
+# delete()
+showAll()
 # Example usage of get_reminder_by_id:
 # reminder_id = input("Enter the reminder ID: ")
 # reminder = get_reminder_by_id(reminder_id)
