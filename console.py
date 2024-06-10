@@ -1,6 +1,7 @@
 import cmd
 from Utils.algo2 import ReminderApp
 import os
+from Utils.promptly_db import setup_db
 
 class promptly(cmd.Cmd):
     """The Promptly command line interface"""
@@ -10,7 +11,7 @@ class promptly(cmd.Cmd):
     def __init__(self):
         super().__init__()
         self.algo2 = ReminderApp()
-    
+        
     def do_exit(self, arg):
         """Quits the promptly cli"""
         return True
@@ -27,9 +28,18 @@ class promptly(cmd.Cmd):
         """Creates a new Reminder"""
         self.algo2.create()
         
-    def do_delete(self, **args):
+    def do_delete(self, *args):
         """Deletes a Reminder using reminder id fro, the database"""
         self.algo2.delete()
+    
+    def do_edit(self, *args):
+        """Edits a Reminder using field from the database"""
+        self.algo2.update()
+    
+    def do_setup(self, *args):
+        """Sets up the database"""
+        setup_db()
+        # print("Database created successfully")
                 
 if __name__ == "__main__":
     promptly().cmdloop()
