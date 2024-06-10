@@ -1,11 +1,15 @@
 import cmd
-import json
+from Utils.algo2 import ReminderApp
 import os
 
 class promptly(cmd.Cmd):
     """The Promptly command line interface"""
     prompt = "Promptly ##   "
     intro = "Welcome to Promptly Command line interface"
+    
+    def __init__(self):
+        super().__init__()
+        self.algo2 = ReminderApp()
     
     def do_exit(self, arg):
         """Quits the promptly cli"""
@@ -14,14 +18,19 @@ class promptly(cmd.Cmd):
         """Restarts the promptly cli"""
         print("Restarting................")
         os.system("python3 console.py")
-    
+        
     def do_show(self, *args):
-        """Shows all the reminders"""
-        with open("reminders.json", "r") as f:
-            reminder = json.load(f)
-            
-            print(reminder)
-    
+        """Shows all the Reminders in the Database"""
+        self.algo2.show_all()
+        
+    def do_create(self, *args):
+        """Creates a new Reminder"""
+        self.algo2.create()
+        
+    def do_delete(self, **args):
+        """Deletes a Reminder using reminder id fro, the database"""
+        self.algo2.delete()
+                
 if __name__ == "__main__":
     promptly().cmdloop()
     
