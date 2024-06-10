@@ -6,6 +6,7 @@ def clear_database():
 
     # Execute SQL DELETE statement
     cursor.execute("DELETE FROM reminders")
+    cursor.execute("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='reminders'")
 
     # Commit the changes
     conn.commit()
