@@ -11,3 +11,15 @@ stack
 
 
 note: Run the promptly_db.py once
+ 
+** steps **
+1. worked on the base algorithm (
+    1. create reminder
+    2. delete reminder
+    3. update reminder
+)
+2. Database to store the reminders
+3. CLI (started on 10 jun 2024)
+*** NEXT ***
+notification system 
+sheduling mechanism
