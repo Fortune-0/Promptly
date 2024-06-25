@@ -6,10 +6,11 @@ def db_connection():
     return connection
 
 def create():
-    # Connect to MySQL database
+    # Connect to SQLITE database
     conn = db_connection()
     cursor = conn.cursor()
-
+    current_year = datetime.datetime.now().year
+    
     task = input("Enter the task/event: ")
     while True:
         try:
@@ -39,10 +40,12 @@ def create():
                 print("Invalid input, Enter time in number format.")
 
     print("REMINDER CREATED SUCCESSFULLY")
+    # Add the current year to the date string
+    date_str_with_year = f'{dat}-{current_year}'
 
     reminder = {
         'task': task,
-        'date': datetime.datetime.strptime(dat, "%d-%m").strftime("%Y-%m-%d"),
+        'date': datetime.datetime.strptime(date_str_with_year, "%d-%m-%Y").strftime("%Y-%m-%d"),
         'time': tim + ":00"
     }
 
@@ -62,6 +65,9 @@ def delete():
     conn = db_connection()
     cursor = conn.cursor()
     
+    print("NOTE!!!\n Always use the show command first before you delete anything")
+    # y = input("Have you use the showAll command? ")
+
     try:
         
         reminder_id = input("Enter the task id you want to delete ")
@@ -94,13 +100,63 @@ def showAll():
         if not reminders:
             print("No reminders found.")
             return
-        print("All reminders:")
-        for reminder in reminders:
-            print(reminder)
+        print("All reminders:\n")
+        for row in reminders:
+            id, task, date, time = row
+            print(f"Reminder ID: {id}\nTask: {task}\nDate: {date}\nTime: {time}\n{'-'*20}")
     except Exception as e:
         print(f"An error occoured: {e}")
     finally:
         conn.close()
+
+# def update():
+    """Edit the reminder"""
+    # conn = db_connection()
+    # cursor = conn.cursor()
+    
+    # try:
+        
+    edit = input("Enter the ID of the reminder to update ")
+        
+    if not edit.isdigit():
+        print("Invalid input! \n id should be a number")
+        return
+
+    edit = int(edit)
+
+    pass
+def update():
+    """Update the reminders stored in the database"""
+    conn = db_connection()
+    cursor = conn.cursor()
+    
+    id = input("Enter the id of the reminder to update: ")
+
+# Initialize an empty list to hold the columns to update
+    updates = []
+
+    # Ask the user for each field
+    for field in ['task', 'date', 'time']:
+        new_value = input(f"Enter the new {field} (or leave blank to keep the same): ")
+        if new_value:  # If the user entered a value, add to the updates list
+            updates.append((field, new_value))
+
+    # Construct the SQL query
+    set_clause = ', '.join(f"{field} = ?" for field, _ in updates)
+    query = f"""
+    UPDATE reminders
+    SET {set_clause}
+    WHERE id = ?
+    """
+
+    # Construct the values tuple
+    values = tuple(value for _, value in updates) + (id,)
+
+    # Execute the query
+    cursor.execute(query, values)
+    conn.commit()
+
+    pass
 # def delete():
 #     conn = db_connection()
 #     cursor = conn.cursor()
@@ -117,11 +173,6 @@ def showAll():
         
     
 #     conn.close()
-
-# def update():
-    
-#     pass
-
 # def get_reminder_by_id(reminder_id):
 #     conn = mysql.connector.connect(
 #         host='localhost',
@@ -141,7 +192,8 @@ def showAll():
 
 # create()
 # delete()
-showAll()
+# showAll()
+update()
 # Example usage of get_reminder_by_id:
 # reminder_id = input("Enter the reminder ID: ")
 # reminder = get_reminder_by_id(reminder_id)

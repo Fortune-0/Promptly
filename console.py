@@ -39,7 +39,7 @@ class promptly(cmd.Cmd):
     def do_setup(self, *args):
         """Sets up the database"""
         setup_db()
-        # print("Database created successfully")
+        print("Database created successfully")
                 
 if __name__ == "__main__":
     promptly().cmdloop()

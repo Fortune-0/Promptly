@@ -1,4 +1,5 @@
 import sqlite3
+''''Creates the project DATABASE'''
 
 def setup_db():
     # create promptly.db if it doesn't exit

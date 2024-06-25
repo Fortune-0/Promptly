@@ -137,6 +137,8 @@ if __name__ == "__main__":
     app = ReminderApp()
 
     app.create()
+    app.show_all()
+    # app.delete()
     # while True:
     #     print("1. Create Reminder")
     #     print("2. Delete Reminder")
