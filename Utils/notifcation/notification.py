@@ -3,9 +3,11 @@ import datetime
 from apscheduler.schedulers.blocking import BlockingScheduler
 import sqlite3
 
+print("program started running")
 notification_start_time = None
 def pull_reminder():
      global notification_start_time
+     print("accessing the database")
      conn = sqlite3.connect('promptly_db.sqlite')
      c = conn.cursor()
      
@@ -25,13 +27,15 @@ def pull_reminder():
           current_date = datetime.date.today()
           current_time = datetime.datetime.now().time()
           # print(task)
+          print("information retrived successfully\n checking the date and time")
      
           if date.date() == current_date and time.time() <= current_time:
                if notification_start_time is None:
                     notification_start_time = datetime.datetime.now()
-                    elapsed_time = datetime.datetime.now() - notification_start_time
                     
-                    if elapsed_time.seconds < 300:
+               elapsed_time = datetime.datetime.now() - notification_start_time
+                    
+               if elapsed_time.seconds < 300:
                          notify(
                               BodyText=task,
                               AppName='Promptly app',
@@ -39,7 +43,7 @@ def pull_reminder():
                               TitleText='Reminder',
                               ImagePath='icon.ico'
                               )
-                    else:
+               else:
                          print("Stopping notifications after 5 mins")
                          notification_start_time = None
                          print("No current reminder\n")
