@@ -3,7 +3,7 @@ import sqlite3
 
 def setup_db():
     # create promptly.db if it doesn't exit
-    conn = sqlite3.connect('./promptly_db.sqlite')
+    conn = sqlite3.connect('./apromptly_db.sqlite')
     cursor = conn.cursor()
     cursor.execute('''
                    CREATE TABLE IF NOT EXISTS reminders(
