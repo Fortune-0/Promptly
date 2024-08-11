@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400&display=swap');
+
+.roboto-mono-head {
+    font-family: "Roboto Mono", monospace;
+    font-optical-sizing: auto;
+    /* font-weight: normal; */
+    font-style: normal;
+}
+
+.rajdhani-light {
+    font-family: "Rajdhani", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+  }
+  
+.rajdhani-regular {
+    font-family: "Rajdhani", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.taskNameHeader {
+    font-weight: 600;
+    font-size: 1.875rem;
+    line-height: 2rem;
+
+    /* overflow: visible;
+    white-space: normal;
+    text-overflow: clip; */
+}
+.taskContent {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+}
+.executionTime {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    margin-top: 0.5rem;
+}
+.errorInput {
+    border-color: rgba(248, 113, 113,1);
+    outline-color: rgba(248, 113, 113,1);
+    color: rgb(248, 113, 113);
+}
+.block {display: block;}
+.h-13 {height: 50px;}
+.task:hover .btns {display: block;}
+.hide{display: none;}
+
+.empty {
+    background-color:#f87171 ;
+}
