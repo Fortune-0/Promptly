@@ -46,6 +46,17 @@ def retrive_reminder():
     conn.close()
     
     return jsonify(reminders_list), 200
+
+@app.route('/api/delete/<int:reminder_id>', methods=['DELETE'])
+def delete_reminder(reminder_id):
+    conn = connect_db()
+    cursor = conn.cursor()
+    
+    cursor.execute('''DELETE FROM reminders WHERE id = ?''', (reminder_id,))
+    conn.commit()
+    conn.close()
+    
+    return jsonify({"message": "Reminders deleted successfully!"}), 200
     
 
 if __name__ == '__main__':
