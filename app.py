@@ -24,7 +24,7 @@ def add_reminder():
     
     return jsonify({"message": "Reminder added successfully!"}), 201
 
-@app.route('/api/Reminder', methods=['GET'])
+@app.route('/api/allReminder', methods=['GET'])
 def retrive_reminder():
     """ Retrives all the reminders in the database"""
     conn = connect_db()
@@ -49,15 +49,50 @@ def retrive_reminder():
 
 @app.route('/api/delete/<int:reminder_id>', methods=['DELETE'])
 def delete_reminder(reminder_id):
-    conn = connect_db()
-    cursor = conn.cursor()
-    
-    cursor.execute('''DELETE FROM reminders WHERE id = ?''', (reminder_id,))
-    conn.commit()
-    conn.close()
-    
-    return jsonify({"message": "Reminders deleted successfully!"}), 200
-    
+    """Delete reminder from the database
 
+    Args:
+        reminder_id (int): pass the number of the id to be deleted
+
+    Returns:
+        _type_: _description_
+    """
+    try:
+        with connect_db() as conn:
+            cursor = conn.cursor()
+            cursor.execute('''DELETE FROM reminders WHERE id = ?''', (reminder_id,))
+            if cursor.rowcount == 0:
+                return jsonify({"message": "Reminder not found!"}), 404
+            conn.commit()
+        
+        return jsonify({"message": "Reminder deleted successfully!"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+@app.route('/api/update/<int:reminder_id>', methods=['PUT'])
+def update_reminder(reminder_id):
+    """ Updates the reminder """
+    try:
+        data = request.get_json()
+        task = data.get('task')
+        date = data.get('dateTime', {}).get('date')
+        time = data.get('dateTime', {}).get('time')
+        
+        with connect_db() as conn:
+            cursor = conn.cursor()
+            cursor.execute('''
+                           UPDATE reminders
+                           set task = ?, date = ?, time = ?
+                           WHERe id = ?
+                           ''', (task, date, time))
+            if cursor.rowcount == 0:
+                return jsonify({"message": "Reminder not found!"}), 404
+            conn.commit()
+        return jsonify({"message": "Reminder successfully updated!"}), 200
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+            
 if __name__ == '__main__':
     app.run(debug=True)
