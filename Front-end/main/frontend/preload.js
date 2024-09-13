@@ -5,6 +5,6 @@ contextBridge.exposeInMainWorld('api', {
   chrome: () => process.versions.chrome,
   electron: () => process.versions.electron,
 
-  submitTask: (data) => ipcRenderer.invoke('form-submitted', data)
+  // submitTask: (data) => ipcRenderer.invoke('form-submitted', data) Python is handling this also
 
 })

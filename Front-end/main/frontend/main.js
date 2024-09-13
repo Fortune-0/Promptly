@@ -32,11 +32,11 @@ app.on('window-all-closed', () => {
 });
 
 
-ipcMain.handle('form-submitted', (req, data) => {
-  if (!data || !data.dateTime.time || !data.taskName || !data.dateTime.date) return false;
-  let taskName = data.taskName;
-  let date = data.dateTime.date;
-  let time = data.dateTime.time;
-  // console.log(data.taskName, data.date, data.time);
-  return { taskName, date, time};
-});
+// ipcMain.handle('form-submitted', (req, data) => {
+//   if (!data || !data.dateTime.time || !data.taskName || !data.dateTime.date) return false;
+//   let taskName = data.taskName;
+//   let date = data.dateTime.date;
+//   let time = data.dateTime.time;
+//   // console.log(data.taskName, data.date, data.time);
+//   return { taskName, date, time};
+// }); Don't need this function Python is handling it.
