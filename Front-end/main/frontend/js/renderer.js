@@ -26,7 +26,7 @@ async function submitTask(data) {
 }
 
 taskSubmit.addEventListener('click', async () => {
-    var taskName = taskNameEl.value,
+    var task = taskNameEl.value,
     dateTime = taskDateTimeEl.value;
 
     const [date, time] = dateTime.split('T');
@@ -39,8 +39,8 @@ taskSubmit.addEventListener('click', async () => {
     });
 
     const createTask = (taskContainer) => {
-        var firstLetter_TN = taskName.slice(0, 1).toUpperCase();
-        var restName = taskName.slice(1, taskName.length);
+        var firstLetter_TN = task.slice(0, 1).toUpperCase();
+        var restName = task.slice(1, task.length);
         var taskHeaderName = firstLetter_TN + restName;
 
         const taskDiv = document.createElement('article');
@@ -89,13 +89,13 @@ taskSubmit.addEventListener('click', async () => {
     };
 
     switch (true) {
-        case !taskName && !dateTime:
+        case !task && !dateTime:
             checkTaskName();
             checkDate();
             checkTime();
             dateEm.textContent = "Please select a specific date and time";
             break;
-        case !taskName:
+        case !task:
             checkTaskName();
             break;
         case !dateTime:
