@@ -1,4 +1,3 @@
-// Define and initialize variables and elements
 var totalNumberOfTasks = document.getElementById("taskList").childElementCount;
 
 const totalNumContainer = document.getElementsByTagName("var"),
@@ -16,24 +15,35 @@ const totalNumContainer = document.getElementsByTagName("var"),
 
 totalNumContainer[0].textContent = totalNumberOfTasks;
 
-// Handle deletion of tasks
+// Handle task deletion with Flask API
 deleteBtns.forEach(deleteBtn => {
-    deleteBtn.addEventListener("click", function () {
+    deleteBtn.addEventListener("click", async function () {
         const parentEl = this.closest(".task");
         if (parentEl) {
-            parentEl.style.display = "none";
-            totalNumberOfTasks--;
-            totalNumContainer[0].textContent = totalNumberOfTasks;
+            const taskId = parentEl.getAttribute('data-task-id');
 
-            if (totalNumberOfTasks == 0) {
-                totalNumContainer[0].classList.remove("bg-green-300");
-                totalNumContainer[0].classList.add("empty");
+            // Send DELETE request to Flask API
+            const response = await fetch(`http://127.0.0.1:5000/api/delete/${taskId}`, {
+                method: 'DELETE'
+            });
+
+            if (response.ok) {
+                parentEl.style.display = "none";
+                totalNumberOfTasks--;
+                totalNumContainer[0].textContent = totalNumberOfTasks;
+
+                if (totalNumberOfTasks == 0) {
+                    totalNumContainer[0].classList.remove("bg-green-300");
+                    totalNumContainer[0].classList.add("empty");
+                }
+            } else {
+                alert("Failed to delete the task.");
             }
         }
     });
 });
 
-// Display edit form
+// Display the edit form
 function displayEdit() {
     const parentE = document.querySelector("#allTasks");
     parentE.style.display = 'none';
@@ -42,7 +52,7 @@ function displayEdit() {
     aside.classList.add("flex");
 }
 
-// Cancel edit form
+// Cancel the edit form
 function cancelEdit() {
     const parentE = document.querySelector("#allTasks");
     parentE.style.display = 'flex';
@@ -51,12 +61,13 @@ function cancelEdit() {
     aside.classList.add("hidden");
 }
 
-// Handle editing of tasks
+// Handle task editing with Flask API
 editBtns.forEach(editBtn => {
     editBtn.addEventListener('click', () => {
         displayEdit();
 
         const parentElement = editBtn.closest(".task");
+        const taskId = parentElement.getAttribute('data-task-id');
         const taskName = parentElement.querySelector(".taskNameHeader").textContent;
         const taskDate = parentElement.querySelector(".date").textContent;
         const taskTime = parentElement.querySelector(".time").textContent;
@@ -72,31 +83,43 @@ editBtns.forEach(editBtn => {
             }
         }, 500);
 
-        const onSubmitEdit = () => {
-            
+        const onSubmitEdit = async () => {
             const finalTaskName = taskInputName.value;
-            // Changes the first letter to upper case
             let firstLetter_TN = finalTaskName.slice(0,1).toUpperCase();
             let restName = finalTaskName.slice(1);
             let taskHeaderName = firstLetter_TN + restName;
-            const taskNameElement = parentElement.querySelector(".taskNameHeader");
-            taskNameElement.textContent = taskHeaderName;
 
             const finalTaskDateTime = taskInputDateTime.value;
             let [date, time] = finalTaskDateTime.split("T");
+
             const formattedDate = new Date(date).toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' });
             const formattedTime = new Date(finalTaskDateTime).toLocaleTimeString('en-US', { hour12: true }).replace(/:\d+ /, ' ');
-            
-            let finalTaskTime = parentElement.querySelector(".finalTime");
-            let finalTaskDate = parentElement.querySelector(".date");
-            let editInputTime = parentElement.querySelector(".time");
-            editInputTime.textContent = time;
-            finalTaskDate.textContent = formattedDate;
-            finalTaskTime.textContent = formattedTime;
 
+            // Send PUT request to Flask API to update the task
+            const response = await fetch(`http://127.0.0.1:5000/api/update/${taskId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    task: taskHeaderName,
+                    dateTime: { date, time }
+                })
+            });
 
-            cancelEdit();
-            submitEditButton.removeEventListener('click', onSubmitEdit); // Remove the listener after execution
+            if (response.ok) {
+                let finalTaskTime = parentElement.querySelector(".finalTime");
+                let finalTaskDate = parentElement.querySelector(".date");
+                let editInputTime = parentElement.querySelector(".time");
+                editInputTime.textContent = time;
+                finalTaskDate.textContent = formattedDate;
+                finalTaskTime.textContent = formattedTime;
+
+                cancelEdit();
+                submitEditButton.removeEventListener('click', onSubmitEdit); // Remove the listener after execution
+            } else {
+                alert("Failed to update the task.");
+            }
         };
 
         submitEditButton.addEventListener('click', onSubmitEdit);
@@ -207,5 +230,3 @@ const clearData = () => {
     taskNameEl.value = '';
     taskDateTimeEl.value = '';
 }
-
-// console.log(totalNumberOfTasks);
