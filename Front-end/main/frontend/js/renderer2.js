@@ -13,7 +13,7 @@ window.onload = () => {
 
             taskParentContainer.setAttribute('data-task-id', task.id);
 
-            // Check how to handle line 19 because that is the time the frontend gets to edit the task in the frontend.
+            // Check how to handle line 22 because that is the time the frontend gets to edit the task in the frontend.
 
             taskParentContainer.innerHTML = `
                 <div class="text-green-500">
