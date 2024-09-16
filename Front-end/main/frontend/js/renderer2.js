@@ -17,11 +17,11 @@ window.onload = () => {
 
             taskParentContainer.innerHTML = `
                 <div class="text-green-500">
-                        <h3 class="taskNameHeader">${task.task}</h3>
+                        <h3 class="taskNameHeader">${data.task}</h3>
                         <div class="taskContent">
                             <p class="hidden time">16:35</p>
-                            <p class="text-xs">Time: <span class="finalTime">${task.time}</span></p>
-                            <p class="text-xs">Date: <span class="date">${task.date}</span></p>
+                            <p class="text-xs">Time: <span class="finalTime">${data.dateTime.time}</span></p>
+                            <p class="text-xs">Date: <span class="date">${data.dateTime.date}</span></p>
                         </div>
                         <p class="executionTime"> 4:35 PM</p>
                     </div>
@@ -133,13 +133,10 @@ window.onload = () => {
                 const finalTaskName = taskInputName.value;
                 let firstLetter_TN = finalTaskName.slice(0,1).toUpperCase();
                 let restName = finalTaskName.slice(1);
-                let taskHeaderName = firstLetter_TN + restName;
+                let task = firstLetter_TN + restName;
 
-                const finalTaskDateTime = taskInputDateTime.value;
-                let [date, time] = finalTaskDateTime.split("T");
-
-                const formattedDate = new Date(date).toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' });
-                const formattedTime = new Date(finalTaskDateTime).toLocaleTimeString('en-US', { hour12: true }).replace(/:\d+ /, ' ');
+                let DateTime = taskInputDateTime.value;
+                let [date, time] = DateTime.split("T");
 
                 // Send PUT request to Flask API to update the task
                 const response = await fetch(`http://127.0.0.1:5000/api/update/${taskId}`, {
@@ -148,10 +145,13 @@ window.onload = () => {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        task: taskHeaderName,
-                        dateTime: { date, time }
+                        task,
+                        DateTime: {date, time}
                     })
                 });
+
+                const formattedDate = new Date(date).toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                const formattedTime = new Date(DateTime).toLocaleTimeString('en-US', { hour12: true }).replace(/:\d+ /, ' ');
 
                 if (response.ok) {
                     let finalTaskTime = parentElement.querySelector(".finalTime");

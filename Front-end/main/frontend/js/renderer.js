@@ -30,13 +30,16 @@ taskSubmit.addEventListener('click', async () => {
     dateTime = taskDateTimeEl.value;
 
     const [date, time] = dateTime.split('T');
+    await submitTask({
+        task,
+        dateTime: {date, time}
+    });
+
+    
     const formattedDate = new Date(date).toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' });
     const formattedTime = new Date(dateTime).toLocaleTimeString('en-US', { hour12: true }).replace(/:\d+ /, ' ');
 
-    await submitTask({
-        task,
-        dateTime: { date, time }
-    });
+    
 
     const createTask = (taskContainer) => {
         var firstLetter_TN = task.slice(0, 1).toUpperCase();
