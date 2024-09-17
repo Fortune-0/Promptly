@@ -33,11 +33,10 @@ window.onload = () => {
                     <div class="text-green-500">
                             <h3 class="taskNameHeader">${data.task}</h3>
                             <div class="taskContent">
-                                <p class="hidden time">16:35</p>
-                                <p class="text-xs">Time: <span class="finalTime">${data.dateTime.time}</span></p>
-                                <p class="text-xs">Date: <span class="date">${data.dateTime.date}</span></p>
+                                <p class="hidden time">${data.dateTime.time}</p>
+                                <p class="text-xs">Time: <span class="finalTime">new Date(${data.dateTime}).toLocaleTimeString('en-US', {hour12: true}).replace(/:\d+ /, ' ');</span></p>
+                                <p class="text-xs">Date: <span class="date">new Date(${data.dateTime.date}).toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' })}</span></p>
                             </div>
-                            <p class="executionTime"> 4:35 PM</p>
                         </div>
                         <div class="ml-auto mt-auto hidden btns">
                             <button class="taskDeleteBtn" title="Delete Reminder" class="mr-3">
@@ -291,12 +290,3 @@ const clearData = () => {
     taskDateTimeEl.value = '';
 }
 }
-
-
-
-
-
-
-
-
-
