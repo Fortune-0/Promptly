@@ -116,6 +116,7 @@ function cancelEdit() {
     const aside = document.getElementById("aside");
     aside.classList.remove("flex");
     aside.classList.add("hidden");
+    clearData();
 }
 
 // Handle task editing with Flask API
@@ -172,6 +173,7 @@ editBtns.forEach(editBtn => {
                 finalTaskDate.textContent = formattedDate;
                 finalTaskTime.textContent = formattedTime;
 
+                clearData();
                 cancelEdit();
                 submitEditButton.removeEventListener('click', onSubmitEdit); // Remove the listener after execution
             } else {
