@@ -14,7 +14,7 @@ window.onload = () => {
             }
         } finally {
             if (response.ok) {
-                loadingScreen.classList.remove('flex')
+                loadingScreen.classList.remove('flex');
                 loadingScreen.classList.add('hidden');
                 mainContent.classList.remove('hidden');
             } else {
@@ -25,7 +25,7 @@ window.onload = () => {
             tasks.forEach(task => {
                 const taskParentContainer = document.createElement('article');
 
-                taskParentContainer.setAttribute('data-task-id', task.id);
+                taskParentContainer.setAttribute('data-task-id', ${data.id});
 
                 taskParentContainer.innerHTML = `
                     <div class="text-green-500">
