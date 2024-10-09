@@ -35,6 +35,9 @@ taskSubmit.addEventListener('click', async () => {
         dateTime: {date, time}
     });
 
+    console.log(dateTime);
+    
+
     
     const formattedDate = new Date(date).toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' });
     const formattedTime = new Date(dateTime).toLocaleTimeString('en-US', { hour12: true }).replace(/:\d+ /, ' ');
