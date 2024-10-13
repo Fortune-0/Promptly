@@ -1,7 +1,3 @@
-
-
-    // totalTaskContainer = document.querySelector("#totalTaskContainer");
-
     // Fetch tasks from Flask API
     
     const loadingScreen = document.getElementById('loading-screen'),
@@ -88,7 +84,7 @@
                                 });
 
                                 if (response.ok) {
-                                    parentEl.style.display = "none";
+                                    parentEl.remove();
                                     totalNumberOfTasks--;
                                     totalNumContainer[0].textContent = totalNumberOfTasks;
 
