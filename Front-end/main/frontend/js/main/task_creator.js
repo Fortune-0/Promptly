@@ -1,7 +1,7 @@
-import * as say from '../variable_names/inputVar.js'
+import * as html from '../variable_names/inputVar.js'
 
-let task = say.taskNameEl.value,
-dateTime = say.taskDateTimeEl.value;
+let task = html.taskNameEl.value,
+dateTime = html.taskDateTimeEl.value;
 
 const [date, time] = dateTime.split('T');
 
@@ -58,6 +58,6 @@ export const createTask = (taskContainer) => {
     clearData();
 };
 const clearData = () => {
-    say.taskNameEl.value = '';
-    say.taskDateTimeEl.value = '';
+    html.taskNameEl.value = '';
+    html.taskDateTimeEl.value = '';
 }

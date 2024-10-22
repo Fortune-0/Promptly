@@ -1,10 +1,11 @@
 import { checkBackDateTime } from "../input_validators/checkbackDate.js";
-import * as say from "../variable_names/inputVar.js";
-import { checkDate } from "../error_messages/date_error.js";
-import { checkTime } from "../error_messages/time_error.js";
-import { checkTaskName } from "../error_messages/task-name_error.js"
-import { clearEm } from "../error_messages/clear_error.js";
+import * as html from "../variable_names/inputVar.js";
+import { dateError } from "../error_messages/date_error.js";
+import { timeError } from "../error_messages/time_error.js";
+import { taskNameError } from "../error_messages/task-name_error.js"
 import { createTask } from "./task_creator.js";
+import { checkTaskName } from "../input_validators/check_taskName.js";
+import { checkDateTime } from "../input_validators/check_dateTime.js";
 
 
 
@@ -21,66 +22,48 @@ async function submitTask(data) {
     return response.json();
 }
 
-say.taskSubmit.addEventListener('click', async () => {
-    let task = say.taskNameEl.value,
-    dateTime = say.taskDateTimeEl.value;
+html.taskSubmit.addEventListener('click', async () => {
+    let task = html.taskNameEl.value,
+    dateTime = html.taskDateTimeEl.value;
 
     const [date, time] = dateTime.split('T');
-    await submitTask({
-        task,
-        dateTime: {date, time}
-    });
     
-
-
+    
     switch (true) {
         case !task && !dateTime:
-            checkTaskName();
-            checkDate();
-            checkTime();
-            say.dateEm.textContent = "Please select a specific date and time";
+            taskNameError();
+            dateError();
+            timeError();
+            html.dateEm.textContent = "Please select a specific date and time";
             break;
         case !task:
-            checkTaskName();
+            taskNameError();
             break;
         case !dateTime:
-            checkDate();
+            dateError();
             break;
         case checkBackDateTime():
             checkBackDateTime();
             break;
         default:
-            createTask(say.totalTaskContainer);
+            await submitTask({
+                task,
+                dateTime: {date, time}
+            });
+            createTask(html.totalTaskContainer);
             break;
     }
 });
 
-say.taskNameEl.addEventListener("input", () => {
-    if (say.taskNameEl.value.length <= 2) {
-        checkTaskName()
-        say.titleEm.textContent = "Task name should be at least 3 characters long";
-    }else {
-        clearEm(say.taskNameEl, say.titleEm);
-    }
+html.taskNameEl.addEventListener("input", () => {
+    checkTaskName();
 });
 
-say.taskDateTimeEl.addEventListener("input", () => {
-    switch (true) {
-        case !say.taskDateTimeEl.value:
-            checkDate();
-            checkTime();
-            say.dateEm.textContent = "please add a date and time";
-            break;
-        case checkBackDateTime():
-            checkBackDateTime();
-            break;
-        default:
-            clearEm(say.taskDateTimeEl, say.dateEm);
-            break;
-    }
+html.taskDateTimeEl.addEventListener("input", () => {
+    checkDateTime();
 });
 
-say.totalTaskContainer.addEventListener('click', () => {
+html.totalTaskContainer.addEventListener('click', () => {
     setTimeout(()=> window.location.href = "allTasks.html", 500);
     // the timeout there is actually to set a delay so API calls can be made
 });

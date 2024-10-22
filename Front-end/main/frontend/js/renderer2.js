@@ -189,7 +189,7 @@
                     editCancelButton.addEventListener("click", cancelEdit);
 
                     // Input validation functionalities
-                    const checkTaskName = () => {
+                    const taskNameError = () => {
                         titleEm.textContent = "Please add a title";
                         titleEm.classList.remove("hidden");
                         taskNameEl.classList.remove("border-transparent");
@@ -197,7 +197,7 @@
                         taskNameEl.classList.add("errorInput");
                     }
 
-                    const checkDate = () => {
+                    const dateError = () => {
                         dateEm.textContent = "Please select a date";
                         dateEm.classList.remove("hidden");
                         taskDateTimeEl.classList.remove("border-transparent");
@@ -205,8 +205,8 @@
                         taskDateTimeEl.classList.add("errorInput");
                     }
 
-                    const checkTime = () => {
-                        checkDate();
+                    const timeError = () => {
+                        dateError();
                         dateEm.textContent = "Please select a specific time";
                     }
 
@@ -227,25 +227,25 @@
                             thisMinute = thisDate.getMinutes();
 
                         if (userMonth == thisMonth && userDay == thisDay && userHour < thisHour) {
-                            checkTime();
+                            timeError();
                             dateEm.textContent = "Please input this hour or later";
                             return true;
                         } else if (userMonth == thisMonth && userDay == thisDay && userHour == thisHour && userMinutes <= thisMinute) {
-                            checkTime();
+                            timeError();
                             dateEm.textContent = "Please input some mins in the future";
                             return true;
                         }
 
                         if (userYear < thisYear) {
-                            checkDate();
+                            dateError();
                             dateEm.textContent = "Please input this year or later.";
                             return true;
                         } else if (userMonth < thisMonth) {
-                            checkDate();
+                            dateError();
                             dateEm.textContent = "Please input this month or later.";
                             return true;
                         } else if (userYear == thisYear && userMonth == thisMonth && userDay < thisDay) {
-                            checkDate();
+                            dateError();
                             dateEm.textContent = "Please input today or later.";
                             return true;
                         }
@@ -262,7 +262,7 @@
 
                     taskNameEl.addEventListener("input", () => {
                         if (taskNameEl.value.length <= 2) {
-                            checkTaskName();
+                            taskNameError();
                             titleEm.textContent = "Task name should be at least 3 characters long";
                         } else {
                             clearEm(taskNameEl, titleEm);
@@ -272,8 +272,8 @@
                     taskDateTimeEl.addEventListener("input", () => {
                         switch (true) {
                             case !taskDateTimeEl.value:
-                                checkDate();
-                                checkTime();
+                                dateError();
+                                timeError();
                                 dateEm.textContent = "Please add a date and time";
                                 break;
                             case checkBackDateTime():
