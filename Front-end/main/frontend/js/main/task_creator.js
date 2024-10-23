@@ -1,14 +1,17 @@
 import * as html from '../variable_names/inputVar.js'
 
-let task = html.taskNameEl.value,
-dateTime = html.taskDateTimeEl.value;
-
-const [date, time] = dateTime.split('T');
-
-const formattedDate = new Date(date).toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' });
-const formattedTime = new Date(dateTime).toLocaleTimeString('en-US', { hour12: true }).replace(/:\d+ /, ' ');
-
 export const createTask = (taskContainer) => {
+
+    let task = html.taskNameEl.value,
+    dateTime = html.taskDateTimeEl.value;
+
+    let [date, time] = dateTime.split('T');
+    
+    let dateObject = new Date(dateTime)
+
+    const formattedDate = dateObject.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    const formattedTime = dateObject.toLocaleTimeString('en-US', { hour12: true }).replace(/:\d+ /, ' ');
+
     var firstLetter_TN = task.slice(0, 1).toUpperCase();
     var restName = task.slice(1, task.length);
     var taskHeaderName = firstLetter_TN + restName;
@@ -25,6 +28,7 @@ export const createTask = (taskContainer) => {
 
     const taskDateParagraph = document.createElement('p');
     taskDateParagraph.classList.add("taskDate");
+
     const taskTimeParagraph = document.createElement('p');
     taskTimeParagraph.classList.add("taskTime");
 
@@ -38,6 +42,7 @@ export const createTask = (taskContainer) => {
     taskDate.classList.add("date");
     taskDate.textContent = formattedDate;
     taskDateParagraph.appendChild(taskDate);
+
     taskTimeParagraph.textContent = `Time: `;
     const taskTime = document.createElement('span');
     taskTime.classList.add("finalTime");
