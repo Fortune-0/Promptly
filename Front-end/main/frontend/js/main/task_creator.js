@@ -1,5 +1,5 @@
 import * as html from '../variable_names/inputVar.js'
-
+import { clearData } from '../allTasks/edit.js';
 export const createTask = (taskContainer) => {
 
     let task = html.taskNameEl.value,
@@ -62,7 +62,3 @@ export const createTask = (taskContainer) => {
     taskContainer.appendChild(taskDiv);
     clearData();
 };
-const clearData = () => {
-    html.taskNameEl.value = '';
-    html.taskDateTimeEl.value = '';
-}

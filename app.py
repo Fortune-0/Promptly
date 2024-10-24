@@ -84,7 +84,7 @@ def update_reminder(reminder_id):
                            UPDATE reminders
                            set task = ?, date = ?, time = ?
                            WHERe id = ?
-                           ''', (task, date, time))
+                           ''', (task, date, time, reminder_id))
             if cursor.rowcount == 0:
                 return jsonify({"message": "Reminder not found!"}), 404
             conn.commit()

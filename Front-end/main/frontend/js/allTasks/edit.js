@@ -1,3 +1,5 @@
+  import * as html from '../variable_names/allTasksVar.js'
+  
   // Display the edit form
  export function displayEdit() {
     const parentE = document.querySelector("#allTasks");
@@ -15,4 +17,9 @@ export function cancelEdit() {
     aside.classList.remove("flex");
     aside.classList.add("hidden");
     clearData();
+}
+
+export const clearData = () => {
+    html.taskNameEl.value = '';
+    html.taskDateTimeEl.value = '';
 }
