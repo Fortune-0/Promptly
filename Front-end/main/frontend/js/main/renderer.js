@@ -9,40 +9,36 @@ import { checkDateTime } from "../input_validators/check_dateTime.js";
 import { submitTask } from "../api.js";
 
 
-
-
-
-
 html.taskSubmit.addEventListener('click', async () => {
     let task = html.taskNameEl.value,
     dateTime = html.taskDateTimeEl.value;
 
     const [date, time] = dateTime.split('T');
     
-    
+    // validation before sending POST request
     switch (true) {
         case !task && !dateTime:
             taskNameError();
             dateError();
             timeError();
             html.dateEm.textContent = "Please select a specific date and time";
-            break;
+        break;
         case !task:
             taskNameError();
-            break;
+        break;
         case !dateTime:
             dateError();
-            break;
+        break;
         case checkBackDateTime():
             checkBackDateTime();
-            break;
+        break;
         default:
             await submitTask({
                 task,
                 dateTime: {date, time}
             });
             createTask(html.totalTaskContainer);
-            break;
+        break;
     }
 });
 

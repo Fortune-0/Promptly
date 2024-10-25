@@ -21,9 +21,7 @@ export function renderTasks() {
                 const parentEl = this.closest(".task");
                 if (parentEl) {
                     const taskId = parentEl.getAttribute('data-task-id');
-                    console.log(taskId);
                     
-        
                     // Send DELETE request to Flask API
                     const response = await fetch('http://127.0.0.1:5000/api/delete/'+ taskId, {
                         method: 'DELETE'
@@ -39,13 +37,11 @@ export function renderTasks() {
                             html.totalNumContainer[0].classList.add("empty");
                         }
                     } else {
-                        alert("Failed to delete the task.");
+                        alert("Failed to delete the task.");// change this
                     }
                 }
             });
         });
-
-
 
         // Handle task edit
         const editBtns = document.querySelectorAll(".taskEditBtn");
@@ -85,7 +81,8 @@ export function renderTasks() {
                     let editInputTime = parentElement.querySelector(".time");
                     const formattedDate = new Date(date).toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' });
                     const formattedTime = new Date(dateTime).toLocaleTimeString('en-US', { hour12: true }).replace(/:\d+ /, ' ');
-
+                    
+                    // validation before sending PUT request
                     switch (true) {
                         case !task && !dateTime:
                             taskNameError();
@@ -114,9 +111,14 @@ export function renderTasks() {
             
                             clearData();
                             cancelEdit();
+                            html.load.classList.replace('hidden', 'flex');
                             html.submitEditButton.removeEventListener('click', onSubmitEdit); // Remove the listener after execution
                         break;
                     }
+                    setTimeout(() => {
+                        html.load.classList.replace('flex', 'hidden');
+                        // window.location.href = `allTask.html#task${taskId}`
+                    }, 1200);
                 };
         
                 html.submitEditButton.addEventListener('click', onSubmitEdit);

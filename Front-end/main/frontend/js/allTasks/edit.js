@@ -5,8 +5,7 @@
     const parentE = document.querySelector("#allTasks");
     parentE.style.display = 'none';
     const aside = document.getElementById("aside");
-    aside.classList.remove("hidden");
-    aside.classList.add("flex");
+    aside.classList.replace('hidden', 'flex')
 }
 
 // Cancel the edit form
@@ -14,8 +13,7 @@ export function cancelEdit() {
     const parentE = document.querySelector("#allTasks");
     parentE.style.display = 'flex';
     const aside = document.getElementById("aside");
-    aside.classList.remove("flex");
-    aside.classList.add("hidden");
+    aside.classList.replace('flex', 'hidden')
     clearData();
 }
 
