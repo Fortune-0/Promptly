@@ -6,21 +6,12 @@ import { taskNameError } from "../error_messages/task-name_error.js"
 import { createTask } from "./task_creator.js";
 import { checkTaskName } from "../input_validators/check_taskName.js";
 import { checkDateTime } from "../input_validators/check_dateTime.js";
+import { submitTask } from "../api.js";
 
 
 
 
-// Function to submit task to Flask backend
-async function submitTask(data) {
-    const response = await fetch('http://127.0.0.1:5000/api/Reminder', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    });
-    return response.json();
-}
+
 
 html.taskSubmit.addEventListener('click', async () => {
     let task = html.taskNameEl.value,
