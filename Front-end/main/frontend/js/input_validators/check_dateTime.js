@@ -1,8 +1,6 @@
 import * as html from '../variable_names/inputVar.js'
-import { dateError } from '../error_messages/date_error.js'
-import { timeError } from '../error_messages/time_error.js'
 import { checkBackDateTime } from './checkbackDate.js'
-import { clearEm } from '../error_messages/clear_error.js'
+import { dateError, timeError, clearEm } from "../error_messages.js";
 
 export const checkDateTime = ()=> {
     switch (true) {

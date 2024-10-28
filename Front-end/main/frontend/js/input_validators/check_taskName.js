@@ -1,6 +1,5 @@
 import * as html from '../variable_names/inputVar.js'
-import { taskNameError } from '../error_messages/task-name_error.js'
-import { clearEm } from '../error_messages/clear_error.js'
+import { clearEm, taskNameError } from "../error_messages.js";
 
 export const checkTaskName = ()=> {
     if (html.taskNameEl.value.length <= 2) {

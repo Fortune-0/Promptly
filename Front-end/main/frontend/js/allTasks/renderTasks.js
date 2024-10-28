@@ -6,17 +6,13 @@ export async function renderRes (){
         
         const response = await fetch('http://127.0.0.1:5000/api/allReminder');
        
-        setTimeout(() => {
-            // load.remove();
-            html.load.classList.replace("flex", "hidden");
-        }, 1200);
+        setTimeout(() => html.load.classList.replace("flex", "hidden"), 1200);
         
         let tasks = await response.json();
         tasks = tasks.sort((a,b)=> b.id - a.id);
         tasks.forEach(task => {
             const taskParentContainer = document.createElement('article');
             taskParentContainer.setAttribute('data-task-id', task.id);
-            taskParentContainer.setAttribute('id', "task"+task.id);
             taskParentContainer.classList.add("flex", "task", "taskContainer", "mb-5", "hover:border-blue-300", "border", "bg-white", "cursor-pointer", "p-6", "hover:scale-105", "transition-all", "rounded-xl");
 
             taskParentContainer.innerHTML = `

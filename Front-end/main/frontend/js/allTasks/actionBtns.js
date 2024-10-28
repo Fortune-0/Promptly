@@ -3,9 +3,7 @@ import * as html from "../variable_names/allTasksVar.js"
 import * as element from "../variable_names/inputVar.js"
 import { displayEdit, cancelEdit, clearData } from "./edit.js";
 import { putTask } from "../api.js";
-import { dateError } from "../error_messages/date_error.js";
-import { timeError } from "../error_messages/time_error.js";
-import { taskNameError } from "../error_messages/task-name_error.js"
+import { dateError, timeError, taskNameError } from "../error_messages.js";
 import { checkBackDateTime } from "../input_validators/checkbackDate.js";
 
 export function renderTasks() {

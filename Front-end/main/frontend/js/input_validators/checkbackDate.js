@@ -1,6 +1,5 @@
 import * as html from "../variable_names/inputVar.js"
-import { dateError } from "../error_messages/date_error.js";
-import { timeError } from "../error_messages/time_error.js";
+import { dateError, timeError } from "../error_messages.js";
 
 const   thisDay = new Date().getDate(),
         thisMonth = new Date().getMonth(),
