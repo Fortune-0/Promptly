@@ -12,6 +12,7 @@ export async function renderRes (){
         }, 1200);
         
         let tasks = await response.json();
+        tasks = tasks.sort((a,b)=> b.id - a.id);
         tasks.forEach(task => {
             const taskParentContainer = document.createElement('article');
             taskParentContainer.setAttribute('data-task-id', task.id);
