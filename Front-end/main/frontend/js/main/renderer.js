@@ -1,6 +1,5 @@
 import { checkBackDateTime } from "../input_validators/checkbackDate.js";
 import * as html from "../variable_names/inputVar.js";
-import { dateError, timeError, taskNameError } from "../error_messages.js";
 import { createTask } from "./task_creator.js";
 import { checkTaskName } from "../input_validators/check_taskName.js";
 import { checkDateTime } from "../input_validators/check_dateTime.js";
@@ -16,26 +15,42 @@ html.taskSubmit.addEventListener('click', async () => {
     // validation before sending POST request
     switch (true) {
         case !task && !dateTime:
-            taskNameError();
-            dateError();
-            timeError();
-            html.dateEm.textContent = "Please select a specific date and time";
+            Swal.fire({
+                icon: 'warning',
+                title: 'Missing Inputs',
+                text: 'Please add a title and select a specific date and time'
+            })
         break;
         case !task:
-            taskNameError();
+            Swal.fire({
+                icon: 'warning',
+                title: 'Missing Input',
+                text: 'Please add a title'
+            })
         break;
         case !dateTime:
-            dateError();
+            Swal.fire({
+                icon: 'warning',
+                title: 'Missing Input',
+                text: 'Please specify a specific date and time'
+            })
         break;
         case checkBackDateTime():
-            checkBackDateTime();
+            Swal.fire({
+                icon: 'warning',
+                title: 'Wrong Input',
+                text: 'Please specify a date or time in the future'
+            })
         break;
         default:
             await submitTask({
                 task,
                 dateTime: {date, time}
             });
-            createTask(html.totalTaskContainer);
+            Swal.fire({
+                icon: 'success',
+                title: 'Reminder Created successfully'
+            }).then(()=>createTask(html.totalTaskContainer));
         break;
     }
 });

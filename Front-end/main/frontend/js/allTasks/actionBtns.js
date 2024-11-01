@@ -1,11 +1,8 @@
 import { renderRes } from "./renderTasks.js";
 import * as html from "../variable_names/allTasksVar.js"
-import * as element from "../variable_names/inputVar.js"
 import { displayEdit, cancelEdit, clearData } from "./edit.js";
 import { putTask } from "../api.js";
-import { dateError, timeError, taskNameError } from "../error_messages.js";
 import { checkBackDateTime } from "../input_validators/checkbackDate.js";
-// import Swal from '../../../node_modules/sweetalert2/dist/sweetalert2.js'
 export function renderTasks() {
     renderRes().then(()=>{
         const deleteBtns = document.querySelectorAll(".taskDeleteBtn");
@@ -21,26 +18,34 @@ export function renderTasks() {
                     const taskId = parentEl.getAttribute('data-task-id');
                     
                     // Send DELETE request to Flask API
-                    try {
-                        await fetch('http://127.0.0.1:5000/api/delete/'+ taskId, {
-                            method: 'DELETE'
-                        });
-                        parentEl.remove();
-                        totalNumberOfTasks--;
-                        html.totalNumContainer[0].textContent = totalNumberOfTasks;
-        
-                        if (totalNumberOfTasks == 0) {
-                            html.totalNumContainer[0].classList.remove("bg-green-300");//
-                            html.totalNumContainer[0].classList.add("empty");
-                        }
-                    } catch (error) {
-                        // Swal.fire({
-                        //     icon: "error",
-                        //     title: "Oops...",
-                        //     text: `Something went wrong! ${error}`,
-                        //     footer: '<a href="#">Why do I have this issue?</a>'
-                        //   });
+                    const response = await fetch('http://127.0.0.1:5000/api/delete/'+ taskId, {
+                        method: 'DELETE'
+                    });
+                
+                    if (response.ok) {
+
+                        Swal.fire({
+                            icon: "success",
+                            title: "Reminder deleted successfully"
+                        }).then(()=>{
+                            parentEl.remove();
+                            totalNumberOfTasks--;
+                            html.totalNumContainer[0].textContent = totalNumberOfTasks;
+                        })
+                        
+                    } else {
+                        Swal.fire({
+                        icon: "ERROR",
+                        title: "Oops...",
+                        text: `Something went wrong! error ${response.status}`
+                    });
                     }
+    
+                    if (totalNumberOfTasks == 0) {
+                        html.totalNumContainer[0].classList.remove("bg-green-300");//
+                        html.totalNumContainer[0].classList.add("empty");
+                    }
+                        
                 }
             });
         });
@@ -53,7 +58,9 @@ export function renderTasks() {
         
                 const parentElement = editBtn.closest(".task");
                 const taskId = parentElement.getAttribute('data-task-id');
-                const taskName = parentElement.querySelector(".taskNameHeader").textContent;
+                console.log(taskId);
+                
+                const taskName = parentElement.querySelector(".taskName").textContent;
                 const taskDate = parentElement.querySelector(".date").textContent;
                 const taskTime = parentElement.querySelector(".time").textContent;
         
@@ -77,7 +84,7 @@ export function renderTasks() {
                     let dateTime = html.taskInputDateTime.value;
                     let [date, time] = dateTime.split("T");
 
-                    let taskName = parentElement.querySelector(".taskNameHeader");
+                    let taskName = parentElement.querySelector(".taskName");
                     let finalTaskTime = parentElement.querySelector(".finalTime");
                     let finalTaskDate = parentElement.querySelector(".date");
                     let editInputTime = parentElement.querySelector(".time");
@@ -87,20 +94,33 @@ export function renderTasks() {
                     // validation before sending PUT request
                     switch (true) {
                         case !task && !dateTime:
-                            taskNameError();
-                            dateError();
-                            timeError();
-                            element.dateEm.textContent = "Please select a specific date and time";
-                            break;
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Missing Inputs',
+                                text: 'Please add a title and select a specific date and time'
+                            })
+                        break;
                         case !task:
-                            taskNameError();
-                            break;
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Missing Input',
+                                text: 'Please add a title'
+                            })
+                        break;
                         case !dateTime:
-                            dateError();
-                            break;
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Missing Input',
+                                text: 'Please specify a specific date and time'
+                            })
+                        break;
                         case checkBackDateTime():
-                            checkBackDateTime();
-                            break;
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Wrong Input',
+                                text: 'Please specify a date or time in the future'
+                            })
+                        break;
                         default: // Send PUT request to Flask API to update the task
                             await putTask({
                                     task,

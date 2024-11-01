@@ -7,12 +7,12 @@
         <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
         <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'"> -->
         <!-- <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'"> -->
-        <title>All tasks</title>
+        <title>Reminders</title>
         <link rel="stylesheet" href="css/output.css">
     </head>
     <body class="bg-dynamic-gradient-1 font-arima">
         <header class="flex text-3xl font-semibold text-white p-4 gap-2">
-            <h1 class="">All Reminders</h1>
+            <h1 class="font-sans">All Reminders</h1>
             <var id="vary" class="text-primary w-9 transition-all h-9 bg-white border text-3xl rounded-lg text-center"></var>
         </header>
         <section class="flex flex-col mt-5 w-3/4 mx-auto pb-6" id="allTasks">
@@ -68,6 +68,7 @@
         </aside>
         
         <script type="module" src="js/allTasks/renderer2.js"></script>
+        <script src="js/lib/swal.js"></script>
             
     </body>
 </html>

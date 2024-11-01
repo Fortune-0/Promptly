@@ -17,11 +17,11 @@ export async function renderRes (){
 
             taskParentContainer.innerHTML = `
                 <div class="text-white">
-                    <h3 class="taskNameHeader">${task.task}</h3>
+                    <h2 class="text-3xl taskName">${task.task}</h2>
                     <div class="taskContent">
                         <p class="hidden time">${task.time}</p>
-                        <p class="text-xs">Time: <span class="finalTime">${new Date(task.date+"T"+task.time).toLocaleTimeString('en-US', {hour12: true}).replace(/:\d+ /, ' ')}</span></p>
-                        <p class="text-xs">Date: <span class="date">${new Date(task.date).toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' })}</span></p>
+                        <p class="text-lg">Time: <span class="finalTime">${new Date(task.date+"T"+task.time).toLocaleTimeString('en-US', {hour12: true}).replace(/:\d+ /, ' ')}</span></p>
+                        <p class="text-lg">Date: <span class="date">${new Date(task.date).toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' })}</span></p>
                     </div>
                 </div>
                 <div class="ml-auto mt-auto hidden btns">
@@ -41,9 +41,12 @@ export async function renderRes (){
         var totalNumberOfTasks = document.getElementById("taskList").childElementCount;
         html.totalNumContainer[0].textContent = totalNumberOfTasks;
     }catch (error) {
-        console.error(error.message);
-
-        // working on the error messages while working on the UI and UX in general
+        html.load.classList.replace("hidden", "flex")
+        Swal.fire({
+            icon: 'error',
+            title: `ERROR`,
+            text: `${error.message}`
+        })
     }
 
 }

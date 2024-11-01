@@ -12,7 +12,7 @@ renderTasks();
 // Cancel edit button listener
 html.editCancelButton.addEventListener("click", cancelEdit);
 
-// Input validation functionalities
+// Input validation functionalities for edit form
 
 html.taskNameEl.addEventListener("input", () => {
     checkTaskName();

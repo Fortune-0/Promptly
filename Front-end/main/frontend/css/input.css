@@ -27,7 +27,7 @@
 
 .taskNameHeader {
     font-weight: 600;
-    font-size: 1.875rem;
+    /* font-size: 1.875rem; */
     line-height: 2rem;
 
     /* overflow: visible;

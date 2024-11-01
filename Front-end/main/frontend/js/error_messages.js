@@ -28,3 +28,6 @@ export const timeError = () => {
     dateError();
     html.dateEm.textContent = "Please select a specific time";
 };
+// POP UPS on submit of creation and edit
+
+// export const emptyForm = 
