@@ -5,7 +5,7 @@ import { displayEdit, cancelEdit, clearData } from "./edit.js";
 import { putTask } from "../api.js";
 import { dateError, timeError, taskNameError } from "../error_messages.js";
 import { checkBackDateTime } from "../input_validators/checkbackDate.js";
-
+// import Swal from '../../../node_modules/sweetalert2/dist/sweetalert2.js'
 export function renderTasks() {
     renderRes().then(()=>{
         const deleteBtns = document.querySelectorAll(".taskDeleteBtn");
@@ -21,21 +21,25 @@ export function renderTasks() {
                     const taskId = parentEl.getAttribute('data-task-id');
                     
                     // Send DELETE request to Flask API
-                    const response = await fetch('http://127.0.0.1:5000/api/delete/'+ taskId, {
-                        method: 'DELETE'
-                    });
-        
-                    if (response.ok) {
+                    try {
+                        await fetch('http://127.0.0.1:5000/api/delete/'+ taskId, {
+                            method: 'DELETE'
+                        });
                         parentEl.remove();
                         totalNumberOfTasks--;
                         html.totalNumContainer[0].textContent = totalNumberOfTasks;
         
                         if (totalNumberOfTasks == 0) {
-                            html.totalNumContainer[0].classList.remove("bg-green-300");
+                            html.totalNumContainer[0].classList.remove("bg-green-300");//
                             html.totalNumContainer[0].classList.add("empty");
                         }
-                    } else {
-                        alert("Failed to delete the task.");// change this
+                    } catch (error) {
+                        // Swal.fire({
+                        //     icon: "error",
+                        //     title: "Oops...",
+                        //     text: `Something went wrong! ${error}`,
+                        //     footer: '<a href="#">Why do I have this issue?</a>'
+                        //   });
                     }
                 }
             });

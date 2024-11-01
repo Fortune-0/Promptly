@@ -10,10 +10,10 @@
         <title>All tasks</title>
         <link rel="stylesheet" href="css/output.css">
     </head>
-    <body class="bg-dynamic-gradient-1">
-        <header class="flex text-3xl font-semibold text-white p-4 roboto-mono-head gap-2">
+    <body class="bg-dynamic-gradient-1 font-arima">
+        <header class="flex text-3xl font-semibold text-white p-4 gap-2">
             <h1 class="">All Reminders</h1>
-            <var id="vary" class="text-white w-9 transition-all h-9 bg-green-300 border text-3xl rounded-lg text-center"></var>
+            <var id="vary" class="text-primary w-9 transition-all h-9 bg-white border text-3xl rounded-lg text-center"></var>
         </header>
         <section class="flex flex-col mt-5 w-3/4 mx-auto pb-6" id="allTasks">
             <div class="flex mb-3">
@@ -48,20 +48,20 @@
         </section>
         <aside class="flex-col mt-5 w-2/4 max-lg:w-9/12 mx-auto hidden" id="aside">
             <div class="flex flex-col mb-6 h-28">
-                <label for="taskName" class="mb-3 text-2xl">Title</label>
-                <input class="outline-blue-300 border border-transparent p-3 rounded-lg" type="text" id="taskName" placeholder="add a title ..." autocomplete="off">
+                <label for="taskName" class="mb-3 text-2xl text-white">Title</label>
+                <input class="outline-blue-300 border border-transparent p-3 rounded-lg font-sans" type="text" id="taskName" placeholder="add a title ..." autocomplete="off">
                 <div id="errorTitle" role="alert" class="h-5 hidden text-sm mt-2 ml-3 text-red-400"></div>
             </div>
             
             <div class="flex flex-col mb-6 h-28">
-                <label for="taskDateTime" class="mb-3 text-2xl">Date & Time</label>
-                <input class="outline-blue-300 border border-transparent p-3 w-5/12 rounded-lg" type="datetime-local" id="taskDateTime" autocomplete="off">
+                <label for="taskDateTime" class="mb-3 text-2xl text-white">Date & Time</label>
+                <input class="outline-blue-300 border border-transparent p-3 w-5/12 rounded-lg font-sans" type="datetime-local" id="taskDateTime" autocomplete="off">
                 <div id="errorDate" role="alert" class="h-5 hidden text-sm mt-2 ml-3 text-red-400"></div>
             </div>
             
             <div class="flex">
-                <button class="bg-green-300 font-bold hover:bg-green-400 hover:rounded-md p-2 rounded-xl text-xl mt-11 mr-auto roboto-mono-head mb-4 text-white" id="editCancel">Cancel</button>
-                <button class="bg-green-300 font-bold hover:bg-green-400 hover:rounded-md p-2 rounded-xl text-xl mt-11 mr-auto roboto-mono-head mb-4 text-white" id="editSubmit">Done</button>
+                <button class="font-bold bg-primary rounded-xl hover:bg-blue-600 p-3 text-2xl mt-11 mx-auto font-sans text-white" id="editCancel">Cancel</button>
+                <button class="font-bold bg-primary rounded-xl hover:bg-blue-600 p-3 text-2xl mt-11 mx-auto font-sans text-white" id="editSubmit">Done</button>
             </div>
         
 

@@ -11,7 +11,8 @@ module.exports = {
     },
     extend: {
       colors:{
-        'primary': '#3b82f6'
+        'primary': '#3b82f6',
+        'primary1': '#e0194b'
       },
       backgroundImage: {
         'dynamic-gradient-1': 'linear-gradient(135deg, #3b4a6b, #2e3a57, #1f2a3e, #3b4a6b)', // Dark blues for a calm, serious feel
