@@ -24,16 +24,6 @@
     font-weight: 400;
     font-style: normal;
 }
-
-.taskNameHeader {
-    font-weight: 600;
-    /* font-size: 1.875rem; */
-    line-height: 2rem;
-
-    /* overflow: visible;
-    white-space: normal;
-    text-overflow: clip; */
-}
 .taskContent {
     display: flex;
     gap: 0.5rem;

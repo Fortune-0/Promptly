@@ -1,8 +1,7 @@
 import { renderRes } from "./renderTasks.js";
 import * as html from "../variable_names/allTasksVar.js"
-import { displayEdit, cancelEdit, clearData } from "./edit.js";
-import { putTask } from "../api.js";
-import { checkBackDateTime } from "../input_validators/checkbackDate.js";
+import { displayEdit } from "./edit.js";
+import { validatePutRequest } from "./putValidation.js"
 export function renderTasks() {
     renderRes().then(()=>{
         const deleteBtns = document.querySelectorAll(".taskDeleteBtn");
@@ -42,8 +41,7 @@ export function renderTasks() {
                     }
     
                     if (totalNumberOfTasks == 0) {
-                        html.totalNumContainer[0].classList.remove("bg-green-300");//
-                        html.totalNumContainer[0].classList.add("empty");
+                        html.totalNumContainer[0].classList.replace("bg-white", "bg-primary1");
                     }
                         
                 }
@@ -54,11 +52,11 @@ export function renderTasks() {
         const editBtns = document.querySelectorAll(".taskEditBtn");
         editBtns.forEach(editBtn => {
             editBtn.addEventListener('click', () => {
+                document.querySelector('body').classList.replace("bg-dynamic-gradient-1", "bg-dynamic-gradient-3")
                 displayEdit();
         
                 const parentElement = editBtn.closest(".task");
                 const taskId = parentElement.getAttribute('data-task-id');
-                console.log(taskId);
                 
                 const taskName = parentElement.querySelector(".taskName").textContent;
                 const taskDate = parentElement.querySelector(".date").textContent;
@@ -73,7 +71,7 @@ export function renderTasks() {
                         html.taskInputDateTime.value = `${formattedReversedDate}T${taskTime}`;
                         html.taskInputName.value = taskName;
                     }
-                }, 500);
+                }, 400);
         
                 const onSubmitEdit = async () => {
                     const finalTaskName = html.taskInputName.value;
@@ -92,54 +90,9 @@ export function renderTasks() {
                     const formattedTime = new Date(dateTime).toLocaleTimeString('en-US', { hour12: true }).replace(/:\d+ /, ' ');
                     
                     // validation before sending PUT request
-                    switch (true) {
-                        case !task && !dateTime:
-                            Swal.fire({
-                                icon: 'warning',
-                                title: 'Missing Inputs',
-                                text: 'Please add a title and select a specific date and time'
-                            })
-                        break;
-                        case !task:
-                            Swal.fire({
-                                icon: 'warning',
-                                title: 'Missing Input',
-                                text: 'Please add a title'
-                            })
-                        break;
-                        case !dateTime:
-                            Swal.fire({
-                                icon: 'warning',
-                                title: 'Missing Input',
-                                text: 'Please specify a specific date and time'
-                            })
-                        break;
-                        case checkBackDateTime():
-                            Swal.fire({
-                                icon: 'warning',
-                                title: 'Wrong Input',
-                                text: 'Please specify a date or time in the future'
-                            })
-                        break;
-                        default: // Send PUT request to Flask API to update the task
-                            await putTask({
-                                    task,
-                                    dateTime: {date, time}
-                                }, taskId);
-                            taskName.textContent = task;
-                            editInputTime.textContent = time;
-                            finalTaskDate.textContent = formattedDate;
-                            finalTaskTime.textContent = formattedTime;
-            
-                            clearData();
-                            cancelEdit();
-                            html.load.classList.replace('hidden', 'flex');
-                            html.submitEditButton.removeEventListener('click', onSubmitEdit); // Remove the listener after execution
-                        break;
-                    }
+                    validatePutRequest(task, taskId, dateTime, date, time, onSubmitEdit, taskName, editInputTime, finalTaskDate, finalTaskTime, formattedTime, formattedDate);
                     setTimeout(() => {
                         html.load.classList.replace('flex', 'hidden');
-                        // window.location.href = `allTask.html#task${taskId}`
                     }, 1200);
                 };
         
