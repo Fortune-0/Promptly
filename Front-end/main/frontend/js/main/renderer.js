@@ -35,6 +35,13 @@ html.taskSubmit.addEventListener('click', async () => {
                 text: 'Please specify a specific date and time'
             })
         break;
+        case task.length < 3:
+            Swal.fire({
+                icon: 'warning',
+                title: 'Incorrect Input',
+                text: 'Please make sure the title is more than 3 characters'
+            });
+        break;
         case checkBackDateTime():
             Swal.fire({
                 icon: 'warning',

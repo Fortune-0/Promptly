@@ -6,7 +6,6 @@ export function renderTasks() {
     renderRes().then(()=>{
         const deleteBtns = document.querySelectorAll(".taskDeleteBtn");
         var totalNumberOfTasks = document.getElementById("taskList").childElementCount;
-
         
         // Handle task deletion with Flask API
         
@@ -91,11 +90,8 @@ export function renderTasks() {
                     
                     // validation before sending PUT request
                     validatePutRequest(task, taskId, dateTime, date, time, onSubmitEdit, taskName, editInputTime, finalTaskDate, finalTaskTime, formattedTime, formattedDate);
-                    setTimeout(() => {
-                        html.load.classList.replace('flex', 'hidden');
-                    }, 1200);
+                    
                 };
-        
                 html.submitEditButton.addEventListener('click', onSubmitEdit);
             });
         });
