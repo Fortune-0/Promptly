@@ -1,64 +1,35 @@
-import * as html from '../variable_names/inputVar.js'
+// import * as html from '../variable_names/inputVar.js'
 import { clearData } from '../allTasks/edit.js';
-export const createTask = (taskContainer) => {
+export const createTask = async (taskContainer) => {
 
-    let task = html.taskNameEl.value,
-    dateTime = html.taskDateTimeEl.value;
+    try {
+        const response = await fetch('http://127.0.0.1:5000/api/allReminder');
+        let tasks = await response.json();
+        console.log(tasks);
+        tasks = tasks.sort((a,b)=> b.id - a.id);
+        tasks = tasks.slice(0,7);
+        tasks.forEach(task => {
+            const taskDiv = document.createElement('article');
+            taskDiv.classList.add('task', 'mb-4', 'flex-1');
+            taskDiv.setAttribute('data-task-id', task.id);
+        
+            const title = task.task.charAt(0).toUpperCase() + task.task.slice(1);
+            taskDiv.innerHTML = `
+                <h3 class="taskNameHeader">${title}</h3>
+                <div class="taskContent">
+                    <p class="taskTime">Time: <span class="finalTime">${new Date(task.date+"T"+task.time).toLocaleTimeString('en-US', {hour12: true}).replace(/:\d+ /, ' ')}</span></p>
+                    <p class="taskDate">Date: <span class="date">${new Date(task.date).toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' })}</span></p>
+                </div>
+            `
+            taskContainer.appendChild(taskDiv);
+        });
+    } catch (error) {
+        Swal.fire({
+            icon: 'error',
+            title: `ERROR`,
+            text: `Internal Server errror ${response.status}`
+        })
+    }
 
-    let [date, time] = dateTime.split('T');
-    
-    let dateObject = new Date(dateTime)
-
-    const formattedDate = dateObject.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' });
-    const formattedTime = dateObject.toLocaleTimeString('en-US', { hour12: true }).replace(/:\d+ /, ' ');
-
-    var firstLetter_TN = task.slice(0, 1).toUpperCase();
-    var restName = task.slice(1, task.length);
-    var taskHeaderName = firstLetter_TN + restName;
-
-    const taskDiv = document.createElement('article');
-    taskDiv.classList.add('task', 'mb-3', 'flex-1');
-
-    const taskNameHeader = document.createElement('h3');
-    taskNameHeader.classList.add('taskNameHeader');
-    taskNameHeader.textContent = taskHeaderName;
-
-    const taskContent = document.createElement('div');
-    taskContent.classList.add('taskContent');
-
-    const taskDateParagraph = document.createElement('p');
-    taskDateParagraph.classList.add("taskDate");
-
-    const taskTimeParagraph = document.createElement('p');
-    taskTimeParagraph.classList.add("taskTime");
-
-    const taskInputTime = document.createElement('p');
-    taskInputTime.classList.add("hidden", "time");
-    taskInputTime.textContent = time;
-    taskContent.appendChild(taskInputTime);
-
-    taskDateParagraph.textContent = `Date: `;
-    const taskDate = document.createElement('span');
-    taskDate.classList.add("date");
-    taskDate.textContent = formattedDate;
-    taskDateParagraph.appendChild(taskDate);
-
-    taskTimeParagraph.textContent = `Time: `;
-    const taskTime = document.createElement('span');
-    taskTime.classList.add("finalTime");
-    taskTime.textContent = formattedTime;
-    taskTimeParagraph.appendChild(taskTime);
-
-    const executionTime = document.createElement('p');
-    executionTime.classList.add('executionTime');
-    const currentTime = new Date().toLocaleTimeString('en-US', { hour12: true }).replace(/:\d+ /, ' ');
-    executionTime.textContent = ` ${currentTime}`;
-
-    taskDiv.appendChild(taskNameHeader);
-    taskContent.appendChild(taskTimeParagraph);
-    taskContent.appendChild(taskDateParagraph);
-    taskDiv.appendChild(taskContent);
-    taskDiv.appendChild(executionTime);
-    taskContainer.appendChild(taskDiv);
     clearData();
 };

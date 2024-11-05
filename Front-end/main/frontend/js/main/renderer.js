@@ -4,6 +4,7 @@ import { createTask } from "./task_creator.js";
 import { checkTaskName } from "../input_validators/check_taskName.js";
 import { checkDateTime } from "../input_validators/check_dateTime.js";
 import { submitTask } from "../api.js";
+import { warningError } from "../error_messages.js";
 
 
 html.taskSubmit.addEventListener('click', async () => {
@@ -15,39 +16,19 @@ html.taskSubmit.addEventListener('click', async () => {
     // validation before sending POST request
     switch (true) {
         case !task && !dateTime:
-            Swal.fire({
-                icon: 'warning',
-                title: 'Missing Inputs',
-                text: 'Please add a title and select a specific date and time'
-            })
+            warningError("Missing Inputs", 'Please add a title and select a specific date and time')
         break;
         case !task:
-            Swal.fire({
-                icon: 'warning',
-                title: 'Missing Input',
-                text: 'Please add a title'
-            })
+            warningError("Missing Input", 'Please add a title')
         break;
         case !dateTime:
-            Swal.fire({
-                icon: 'warning',
-                title: 'Missing Input',
-                text: 'Please specify a specific date and time'
-            })
+            warningError("Missing Input", 'Please specify a specific date and time')
         break;
         case task.length < 3:
-            Swal.fire({
-                icon: 'warning',
-                title: 'Incorrect Input',
-                text: 'Please make sure the title is more than 3 characters'
-            });
+            warningError('Incorrect Input', 'Please make sure the title is more than 3 characters')
         break;
         case checkBackDateTime():
-            Swal.fire({
-                icon: 'warning',
-                title: 'Wrong Input',
-                text: 'Please specify a date or time in the future'
-            })
+            warningError('Wrong Input','Please specify a date or time in the future')
         break;
         default:
             await submitTask({

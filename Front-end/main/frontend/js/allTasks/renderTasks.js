@@ -14,10 +14,11 @@ export async function renderRes (){
             const taskParentContainer = document.createElement('article');
             taskParentContainer.setAttribute('data-task-id', task.id);
             taskParentContainer.classList.add("flex", "task", "taskContainer", "mb-5", "hover:border-primary", "border", "bg-primary", "cursor-pointer", "p-6", "hover:scale-105", "transition-all", "rounded-xl");
+            const title = task.task.charAt(0).toUpperCase() + task.task.slice(1);
 
             taskParentContainer.innerHTML = `
                 <div class="text-white">
-                    <h2 class="text-3xl taskName">${task.task}</h2>
+                    <h2 class="text-3xl taskName">${title}</h2>
                     <div class="taskContent">
                         <p class="hidden time">${task.time}</p>
                         <p class="text-lg">Time: <span class="finalTime">${new Date(task.date+"T"+task.time).toLocaleTimeString('en-US', {hour12: true}).replace(/:\d+ /, ' ')}</span></p>

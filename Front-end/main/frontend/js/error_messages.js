@@ -29,5 +29,11 @@ export const timeError = () => {
     html.dateEm.textContent = "Please select a specific time";
 };
 // POP UPS on submit of creation and edit
-
+export const warningError = (title, text, icon = "warning") => {
+    Swal.fire({
+        icon: icon,
+        title: title,
+        text: text
+    })
+}
 // export const emptyForm = 
