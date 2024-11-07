@@ -5,7 +5,6 @@ export const createTask = async (taskContainer) => {
     try {
         const response = await fetch('http://127.0.0.1:5000/api/allReminder');
         let tasks = await response.json();
-        console.log(tasks);
         tasks = tasks.sort((a,b)=> b.id - a.id);
         tasks = tasks.slice(0,7);
         tasks.forEach(task => {
