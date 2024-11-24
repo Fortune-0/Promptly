@@ -6,6 +6,12 @@ import sqlite3
 print("Program started running")
 notification_start_time = None
 
+def parse_time(time_str):
+    try:
+        return datetime.datetime.strptime(time_str, "%H:%M:%S")
+    except ValueError:
+        return datetime.datetime.strptime(time_str, "%H:%M")
+
 def pull_reminder():
     global notification_start_time
     print("Accessing the database")
@@ -22,7 +28,7 @@ def pull_reminder():
         task, date_str, time_str = dat_tim
         
         date = datetime.datetime.strptime(date_str, "%Y-%m-%d")
-        time = datetime.datetime.strptime(time_str, "%H:%M:%S")
+        time = parse_time(time_str)
         
         current_date = datetime.date.today()
         current_time = datetime.datetime.now().time()
